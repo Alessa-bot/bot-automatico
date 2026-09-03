@@ -1,321 +1,621 @@
 require("dotenv").config();
+
 const express = require("express");
 const OpenAI = require("openai");
+
 const app = express();
 app.use(express.json());
+
 const openai = new OpenAI({
-apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY,
 });
+
 const PORT = process.env.PORT || 8080;
+
+// ==========================================================
+// SYSTEM PROMPT
+// ==========================================================
+
 const SYSTEM_PROMPT = `
-Eres Julieta Leal, una asistente humana, amable, profesional, cálida y cercana que responde dudas por WhatsApp sobre el producto digital "Método Grafismo Fonético".
+Eres Julieta Navarro, asistente de Manitas Listas.
 
-Tu trabajo es responder dudas de forma NATURAL, BREVE y HUMANA, como si fueras una persona real atendiendo con paciencia y cariño.
+Tu función principal es responder y resolver dudas por WhatsApp sobre el Pack de Tablas de Multiplicar.
 
-IMPORTANTE:
+PERSONALIDAD Y TONO:
+- Sé amable, cálida, paciente, comprensiva, cercana y respetuosa.
+- Comunícate especialmente pensando en mamás, maestras y abuelas.
+- Trata de comprender la duda antes de responder.
+- Responde de forma humana y natural.
 - Nunca suenes robótica.
-- Nunca respondas exactamente igual cada vez.
-- Varía ligeramente las palabras y la estructura.
-- Mantén respuestas cálidas, claras y naturales.
-- No escribas demasiado.
-- Responde máximo en 1 o 2 párrafos cortos.
+- Mantén tus respuestas breves, claras y útiles.
+- Responde normalmente en uno o dos párrafos cortos.
+- No presiones a la persona para comprar.
+- Mantente enfocada en resolver dudas relacionadas con el material, su contenido, contribuciones, pagos y entrega.
+- No te desvíes hacia temas ajenos al negocio.
 
-REGLAS:
-- NO saludes.
-- NO uses "Hola".
-- NO hagas múltiples preguntas.
-- NO hagas preguntas abiertas innecesarias.
-- NO digas:
-  - "¿Quieres saber más?"
-  - "¿Te interesa?"
-  - "¿Te gustaría?"
-  - "¿Te ayudo en algo más?"
-  - "¿Quieres que te cuente?"
-- NO seas agresiva vendiendo.
-- NO presiones.
-- NO inventes información.
-- NO menciones correo electrónico como forma de entrega.
-- NO digas que el material es físico.
-- NO menciones envío a domicilio.
-- NO digas que son libros impresos.
-- NO prometas resultados mágicos, inmediatos o garantizados.
-- NO diagnostiques dislexia, TDAH ni ningún problema de aprendizaje.
-- NO menciones ningún nombre para pagos, excepto Alessa Díaz.
+INFORMACIÓN OFICIAL DEL NEGOCIO:
 
-INFORMACIÓN REAL:
-- El producto se llama "Método Grafismo Fonético".
-- Es un material educativo DIGITAL en PDF.
-- El material NO es físico.
-- NO se entrega a domicilio.
-- La entrega se realiza únicamente por WhatsApp.
-- El material se entrega después de confirmar el pago.
-- La persona debe enviar su comprobante para verificar el pago.
-- El cliente puede descargar e imprimir los archivos para uso personal.
-- El paquete incluye:
-  - Método Grafismo Fonético
-  - UNO silábico
-  - Dominó silábico
-  - Bingo silábico
-- El material apoya la práctica de trazos, sonidos, letras, sílabas, lectura inicial y escritura.
-- Es un material de apoyo y estimulación.
-- Cada pequeño avanza a su propio ritmo.
-- El precio del paquete completo es de 99 MXN.
-- Es una venta directa.
-- Los métodos de pago disponibles son:
-  - transferencia bancaria
-  - depósito en Oxxo
-- La cuenta está registrada a nombre de Alessa Díaz, directora y administradora del proyecto.
+Negocio:
+Manitas Listas.
 
-OBJETIVO:
-Después de resolver la duda de forma amable y humana, dirige suavemente a la persona a comprar el paquete completo por 99 MXN mediante:
-- transferencia bancaria
-- depósito en Oxxo
+Producto:
+Pack de Tablas de Multiplicar.
 
-Haz que el cierre se sienta natural, amable y profesional, nunca como presión de venta.
+Tipo de producto:
+Material 100 % digital en formato PDF, descargable e imprimible.
+
+Objetivo:
+Ayudar y orientar de manera amable a mamás, maestras y abuelas interesadas en apoyar el aprendizaje de los pequeños.
+Debes resolver sus dudas con claridad, acompañarlas durante el proceso y guiarlas cuando lo necesiten.
+
+CONTRIBUCIONES:
+- $90 MXN
+- $130 MXN
+- $170 MXN
+
+La contribución es un apoyo que ayuda a Manitas Listas a seguir creando materiales educativos para los pequeños.
+
+MÉTODOS DE PAGO:
+- Transferencia
+- OXXO/Spin
+
+Los datos específicos de pago son mostrados por el flujo de ManyChat.
+Nunca inventes, escribas ni proporciones números de cuenta, tarjetas, CLABE, códigos QR u otros datos bancarios si no fueron proporcionados expresamente.
+
+FORMA DE ENTREGA:
+El material completo se libera después de que la contribución haya sido validada.
+Se envía directamente por WhatsApp en formato PDF.
+
+CONTENIDO DEL PACK:
+Incluye diferentes recursos para practicar y reforzar las tablas de multiplicar:
+- Cuadernillos de multiplicación.
+- Oruguitas de secuencias.
+- Actividades recortables y manipulativas.
+- Recursos visuales.
+- Fichas de trabajo.
+- Juegos didácticos como dominó, comecocos y pádel.
+- Llaveros temáticos.
+
+EDAD:
+Está recomendado principalmente para niños a partir de los 7 años que estén comenzando a aprender las tablas de multiplicar o necesiten reforzarlas.
+También puede utilizarse con niños mayores que todavía tengan dificultad con las tablas.
+
+REGLAS IMPORTANTES:
+- Nunca inventes información.
+- Utiliza exclusivamente la información oficial de Manitas Listas.
+- No inventes productos, precios, promociones, métodos de pago, edades, condiciones, garantías ni beneficios.
+- No afirmes que el material es físico.
+- No prometas entregas antes de validar la contribución.
+- No proporciones datos bancarios desde el agente.
+- No cambies los precios oficiales.
+- Si no tienes información suficiente para responder una duda, indica de manera natural que necesitas confirmar ese dato con el equipo.
+- No diagnostiques problemas de aprendizaje ni hagas afirmaciones médicas o educativas que no estén autorizadas.
+- Tu función principal es resolver dudas.
+
+LLAMADO A LA ACCIÓN:
+Cuando sea apropiado orientar a la persona para continuar, puedes decir:
+"Puedes continuar con la opción de pago que prefieras para realizar tu contribución 😊."
+
+No agregues este llamado a la acción en todas las respuestas.
+Úsalo solamente cuando la persona muestre intención de continuar, pregunte por precio, pago, cómo obtener el material o solicite información para adquirirlo.
 `;
+
+// ==========================================================
+// UTILIDADES
+// ==========================================================
+
 function normalizarTexto(texto) {
-return String(texto || "")
-.toLowerCase()
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g, "")
-.trim();
+  return String(texto || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[¿?¡!.,;:()]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
+
 function elegirAleatoria(opciones) {
-return opciones[Math.floor(Math.random() * opciones.length)];
+  return opciones[Math.floor(Math.random() * opciones.length)];
 }
+
 function limpiarRespuesta(texto) {
-texto = String(texto || "").trim();
-texto = texto
-.replace(/^¡?\s*hola\s*[😊🙏❤✨🌿📚💛,\.\!]*\s*/gi, "")
-.replace(/^gracias por preguntar\s*[😊🙏❤✨🌿📚💛,\.\!]*\s*/gi, "")
-.replace(/^buenos días\s*[😊🙏❤✨🌿📚💛,\.\!]*\s*/gi, "")
-.replace(/^buenos dias\s*[😊🙏❤✨🌿📚💛,\.\!]*\s*/gi, "")
-.replace(/^buenas tardes\s*[😊🙏❤✨🌿📚💛,\.\!]*\s*/gi, "")
-.replace(/^buenas noches\s*[😊🙏❤✨🌿📚💛,\.\!]*\s*/gi, "");
-texto = texto
-.replace(/¿[^?]*(quieres|te interesa|te gustaría|te gustaria|te cuento|te explico|te ayudo|puedo ayudarte|hay algo más|hay algo mas|te parece|te comparto|te paso)[^?]*\?/gi, "")
-.replace(/\s{2,}/g, " ")
-.replace(/\n{3,}/g, "\n\n")
-.trim();
-return texto;
+  return String(texto || "")
+    .trim()
+    .replace(/\s{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n");
 }
-function cierrePago() {
-const cierres = [
-`💌 El paquete completo tiene un precio de 99 MXN. Puedes realizar el pago por transferencia bancaria o depósito en Oxxo ✨
-¿Cuál método prefieres?`,
-`📚 Puedes adquirir el Método Grafismo Fonético con todos sus bonus por 99 MXN mediante transferencia bancaria o depósito en Oxxo.
-¿Qué método prefieres?`,
-`💛 El material completo tiene un precio de 99 MXN. Puedes pagar por transferencia o depósito en Oxxo.
-¿Cuál opción prefieres?`,
-];
-return elegirAleatoria(cierres);
+
+function contieneAlguna(texto, palabras) {
+  return palabras.some((palabra) =>
+    texto.includes(normalizarTexto(palabra))
+  );
 }
-function agregarCierre(texto) {
-const limpio = limpiarRespuesta(texto);
-if (!limpio) {
-return cierrePago();
+
+// ==========================================================
+// CIERRE COMERCIAL
+// ==========================================================
+
+function cierreComercial() {
+  const cierres = [
+    "Puedes continuar con la opción de pago que prefieras para realizar tu contribución 😊.",
+    "Si deseas continuar, puedes elegir la opción de pago que prefieras para realizar tu contribución 💛.",
+    "Cuando gustes continuar, puedes seleccionar el método de pago que prefieras 😊.",
+  ];
+
+  return elegirAleatoria(cierres);
 }
-return `${limpio}
-${cierrePago()}`;
+
+function debeAgregarCierre(textoNormalizado) {
+  const intencionesComerciales = [
+    "precio",
+    "costo",
+    "cuanto cuesta",
+    "cuanto vale",
+    "pagar",
+    "pago",
+    "transferencia",
+    "oxxo",
+    "spin",
+    "deposito",
+    "quiero comprar",
+    "quiero el material",
+    "quiero adquirir",
+    "me interesa",
+    "informes",
+    "informacion",
+    "como lo obtengo",
+    "como lo compro",
+  ];
+
+  return contieneAlguna(
+    textoNormalizado,
+    intencionesComerciales
+  );
 }
+
+function agregarCierre(texto, textoNormalizado) {
+  const limpio = limpiarRespuesta(texto);
+
+  if (!limpio) {
+    return cierreComercial();
+  }
+
+  if (!debeAgregarCierre(textoNormalizado)) {
+    return limpio;
+  }
+
+  return `${limpio}\n\n${cierreComercial()}`;
+}
+
+// ==========================================================
+// RESPUESTAS DIRECTAS
+// ==========================================================
+
 function respuestaDirecta(textoNormalizado) {
-if (
-textoNormalizado === "informacion" ||
-textoNormalizado.includes("quiero informacion") ||
-textoNormalizado.includes("dame informacion") ||
-textoNormalizado.includes("me das informacion") ||
-textoNormalizado.includes("informes") ||
-textoNormalizado.includes("de que se trata")
-) {
-const respuestasInformacion = [
-`El Método Grafismo Fonético es un material educativo digital que apoya la práctica de trazos, sonidos, letras, sílabas, lectura inicial y escritura 📚 Incluye UNO silábico, Dominó silábico y Bingo silábico como bonus.`,
-`Es un paquete digital en PDF pensado para acompañar las primeras etapas de lectura y escritura de forma práctica y divertida ✨ También incluye tres juegos silábicos.`,
-`El paquete incluye el Método Grafismo Fonético y los bonus UNO, Dominó y Bingo silábico 💛 Se entrega únicamente por WhatsApp después de confirmar el pago.`,
-];
-return agregarCierre(elegirAleatoria(respuestasInformacion));
+
+  // ----------------------------------------------------------
+  // 1. ESTAFA
+  // Debe ir antes de CONFIABLE por ser una intención específica.
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "estafa",
+      "fraude",
+      "engaño",
+      "engano",
+      "no me estafen",
+      "es real",
+      "miedo a pagar",
+    ])
+  ) {
+    const respuestas = [
+      "Entiendo tu preocupación 😊. Una vez validada tu contribución, el material se libera y se envía directamente por WhatsApp. Si tienes alguna duda durante el proceso, con gusto te orientamos. ❤️",
+
+      "Comprendo tu duda 😊. Después de validar tu contribución, recibirás el material directamente por WhatsApp. Si necesitas orientación durante el proceso, con gusto te ayudamos. ❤️",
+    ];
+
+    return {
+      intencion: "estafa",
+      respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 2. DOMICILIO
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "domicilio",
+      "a domicilio",
+      "me llega a casa",
+      "envio a casa",
+      "envío a casa",
+      "paqueteria",
+      "paquetería",
+      "direccion",
+      "dirección",
+    ])
+  ) {
+    const respuestas = [
+      "El material es 100 % digital en formato PDF 😊, por lo que no requiere envío a domicilio. Después de validar tu contribución, lo recibes directamente por WhatsApp.",
+
+      "No necesitas esperar un envío a domicilio 😊. El Pack es digital en formato PDF y, después de validar tu contribución, se envía directamente por WhatsApp.",
+    ];
+
+    return {
+      intencion: "domicilio",
+      respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 3. PRECIO
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "precio",
+      "costo",
+      "cuanto cuesta",
+      "cuánto cuesta",
+      "cuanto vale",
+      "cuánto vale",
+      "aportacion",
+      "aportación",
+      "contribucion",
+      "contribución",
+    ])
+  ) {
+    const respuestas = [
+      "Manejamos tres opciones de contribución: $90, $130 y $170 MXN 😊. Puedes elegir la que esté dentro de tus posibilidades. Tu contribución es un apoyo que nos ayuda a seguir creando materiales educativos para los pequeños. ❤️",
+
+      "Tenemos contribuciones de $90, $130 y $170 MXN 😊. Puedes elegir la opción que esté dentro de tus posibilidades. Cada apoyo nos ayuda a continuar creando materiales educativos para los pequeños. ❤️",
+    ];
+
+    return {
+      intencion: "precio",
+      respuesta: agregarCierre(
+        elegirAleatoria(respuestas),
+        textoNormalizado
+      ),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 4. PAGO
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "pago",
+      "pagar",
+      "como pago",
+      "cómo pago",
+      "transferencia",
+      "oxxo",
+      "spin",
+      "deposito",
+      "depósito",
+      "metodo de pago",
+      "método de pago",
+      "forma de pago",
+    ])
+  ) {
+    const respuestas = [
+      "Puedes realizar tu contribución mediante Transferencia u OXXO/Spin 😊. Selecciona la opción de pago que prefieras para continuar y ver los datos correspondientes.",
+
+      "Tenemos disponibles Transferencia y OXXO/Spin 😊. Puedes seleccionar el método de pago que prefieras para continuar y consultar los datos correspondientes.",
+    ];
+
+    return {
+      intencion: "pago",
+      respuesta: agregarCierre(
+        elegirAleatoria(respuestas),
+        textoNormalizado
+      ),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 5. DIGITAL / FORMATO / RECEPCIÓN
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "digital",
+      "pdf",
+      "fisico",
+      "físico",
+      "imprimible",
+      "archivo",
+      "formato",
+      "como lo recibo",
+      "cómo lo recibo",
+      "por whatsapp",
+      "whatsapp",
+    ])
+  ) {
+    const respuestas = [
+      "Es un material 100 % digital en formato PDF 😊. Después de validar tu contribución, recibirás el material directamente por WhatsApp para que puedas descargarlo e imprimirlo.",
+
+      "El Pack es completamente digital y se entrega en formato PDF 😊. Una vez validada tu contribución, lo recibirás directamente por WhatsApp para descargarlo e imprimirlo.",
+    ];
+
+    return {
+      intencion: "digital",
+      respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 6. EDAD
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "edad",
+      "edades",
+      "años",
+      "anos",
+      "para que edad",
+      "para qué edad",
+      "que edad",
+      "qué edad",
+      "niño de",
+      "nino de",
+      "niña de",
+      "nina de",
+      "primaria",
+    ])
+  ) {
+    const respuestas = [
+      "Está recomendado principalmente para niños a partir de los 7 años 😊, que estén comenzando a aprender las tablas de multiplicar o necesiten reforzarlas. También puede utilizarse con niños mayores que todavía tengan dificultad con las tablas.",
+
+      "Se recomienda principalmente a partir de los 7 años 😊, tanto para pequeños que comienzan con las tablas como para niños mayores que todavía necesitan practicarlas y reforzarlas.",
+    ];
+
+    return {
+      intencion: "edad",
+      respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 7. QUÉ INCLUYE
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "incluye",
+      "que incluye",
+      "qué incluye",
+      "que trae",
+      "qué trae",
+      "contenido",
+      "que contiene",
+      "qué contiene",
+      "actividades",
+      "juegos",
+    ])
+  ) {
+    const respuestas = [
+      "El Pack de Tablas de Multiplicar incluye diferentes recursos para practicar y reforzar las tablas 😊: cuadernillos de multiplicación, oruguitas de secuencias, actividades recortables y manipulativas, recursos visuales, fichas de trabajo y juegos didácticos como dominó, comecocos y pádel. También incluye llaveros temáticos. 📚✨",
+
+      "Incluye diferentes materiales para practicar y reforzar las tablas 😊: cuadernillos de multiplicación, oruguitas de secuencias, fichas de trabajo, recursos visuales, actividades recortables y manipulativas, juegos como dominó, comecocos y pádel, además de llaveros temáticos. 📚✨",
+    ];
+
+    return {
+      intencion: "incluye",
+      respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 8. CONFIABLE
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "confiable",
+      "confianza",
+      "seguro",
+      "segura",
+      "si entregan",
+      "sí entregan",
+      "si recibo",
+      "sí recibo",
+      "recibire",
+      "recibiré",
+      "me van a entregar",
+    ])
+  ) {
+    const respuestas = [
+      "Sí 😊. Una vez que tu contribución sea validada, el material se libera y se envía directamente por WhatsApp. Si tienes alguna duda durante el proceso, con gusto te orientamos. ❤️",
+
+      "Claro 😊. Después de validar tu contribución, el material se libera y se entrega directamente por WhatsApp. Si necesitas ayuda durante el proceso, con gusto te orientamos. ❤️",
+    ];
+
+    return {
+      intencion: "confiable",
+      respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 9. ENTREGA
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "entrega",
+      "entregan",
+      "cuando entregan",
+      "cuándo entregan",
+      "cuando llega",
+      "cuándo llega",
+      "cuanto tarda",
+      "cuánto tarda",
+      "cuando recibo",
+      "cuándo recibo",
+    ])
+  ) {
+    const respuestas = [
+      "Una vez que tu contribución sea validada, se libera el material y lo recibes directamente por WhatsApp 😊.",
+
+      "Después de validar tu contribución, el Pack se libera y se envía directamente por WhatsApp 😊.",
+    ];
+
+    return {
+      intencion: "entrega",
+      respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // 10. INFORMES
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "informes",
+      "informacion",
+      "información",
+      "quiero informacion",
+      "quiero información",
+      "me interesa",
+      "quiero saber mas",
+      "quiero saber más",
+      "de que se trata",
+      "de qué se trata",
+    ])
+  ) {
+    const respuestas = [
+      "Claro 😊. Es un Pack de Tablas de Multiplicar con diferentes actividades y juegos didácticos para ayudar a los pequeños a practicar y reforzar las tablas de una manera más dinámica. Si tienes alguna duda sobre el material, con gusto te ayudo. ❤️",
+
+      "Con gusto 😊. El Pack reúne diferentes actividades y juegos didácticos para que los pequeños puedan practicar y reforzar las tablas de multiplicar de una forma más dinámica. Si quieres saber algo específico, con gusto te ayudo. ❤️",
+    ];
+
+    return {
+      intencion: "informes",
+      respuesta: agregarCierre(
+        elegirAleatoria(respuestas),
+        textoNormalizado
+      ),
+    };
+  }
+
+  return null;
 }
-if (
-textoNormalizado.includes("domicilio") ||
-textoNormalizado.includes("a mi casa") ||
-textoNormalizado.includes("paqueteria") ||
-textoNormalizado.includes("fisico") ||
-textoNormalizado.includes("impreso") ||
-textoNormalizado.includes("libro fisico")
-) {
-const respuestasFisico = [
-`El material no es físico ni se entrega a domicilio 📚 Es un archivo digital en PDF que recibes por WhatsApp después de confirmar el pago.`,
-`No se envían libros impresos ni paquetes a casa ✨ Todo el material es digital y se entrega por WhatsApp.`,
-`Es un producto completamente digital en PDF 💛 Puedes descargarlo e imprimirlo para uso personal.`,
-];
-return agregarCierre(elegirAleatoria(respuestasFisico));
-}
-if (
-textoNormalizado.includes("correo") ||
-textoNormalizado.includes("email") ||
-textoNormalizado.includes("whatsapp") ||
-textoNormalizado.includes("whatssap") ||
-textoNormalizado.includes("watsap") ||
-textoNormalizado.includes("donde entregas") ||
-textoNormalizado.includes("donde lo entregas")
-) {
-const respuestasWhatsApp = [
-`La entrega se realiza únicamente por WhatsApp 📚 Después de confirmar el pago, recibes aquí mismo todos los archivos en PDF.`,
-`No necesitas correo electrónico ✨ El material se envía directamente por WhatsApp una vez verificado el pago.`,
-`Todos los PDF se entregan por WhatsApp después de que envíes tu comprobante y se confirme el pago 💛`,
-];
-return agregarCierre(elegirAleatoria(respuestasWhatsApp));
-}
-if (
-textoNormalizado.includes("envio") ||
-textoNormalizado.includes("enviar") ||
-textoNormalizado.includes("entrega") ||
-textoNormalizado.includes("pdf") ||
-textoNormalizado.includes("digital") ||
-textoNormalizado.includes("descargar") ||
-textoNormalizado.includes("recibir") ||
-textoNormalizado.includes("recibo") ||
-textoNormalizado.includes("archivo") ||
-textoNormalizado.includes("entrego") ||
-textoNormalizado.includes("llega")
-) {
-const respuestasEnvio = [
-`Sí, el material se entrega 📚 Después de confirmar el pago, recibes por WhatsApp todos los archivos digitales en formato PDF.`,
-`La entrega es digital y se realiza únicamente por WhatsApp ✨ Solo debes enviar tu comprobante para verificar el pago.`,
-`Recibirás el Método Grafismo Fonético y sus bonus en PDF por WhatsApp después de confirmar el pago 💛`,
-`No hay envío físico ni costo de paquetería. Los archivos se entregan directamente por WhatsApp.`,
-];
-return agregarCierre(elegirAleatoria(respuestasEnvio));
-}
-if (
-textoNormalizado.includes("cuanto") ||
-textoNormalizado.includes("cuesta") ||
-textoNormalizado.includes("precio") ||
-textoNormalizado.includes("costo") ||
-textoNormalizado.includes("vale") ||
-textoNormalizado.includes("pagar") ||
-textoNormalizado.includes("pago")
-) {
-const respuestasPago = [
-`El paquete completo tiene un precio de 99 MXN 📚 Incluye el Método Grafismo Fonético, UNO silábico, Dominó silábico y Bingo silábico.`,
-`Todo el material digital cuesta 99 MXN ✨ Incluye el método principal y los tres juegos silábicos extras.`,
-`La promoción del paquete completo es de 99 MXN 💛 Se entrega en PDF por WhatsApp después de confirmar el pago.`,
-];
-return agregarCierre(elegirAleatoria(respuestasPago));
-}
-if (
-textoNormalizado.includes("para que edad") ||
-textoNormalizado.includes("que edad") ||
-textoNormalizado.includes("edad recomendada") ||
-textoNormalizado.includes("cuantos anos") ||
-textoNormalizado.includes("preescolar") ||
-textoNormalizado.includes("primaria")
-) {
-const respuestasEdad = [
-`Está pensado para pequeños que están comenzando con trazos, sonidos, letras, sílabas, lectura inicial y escritura 📚 Puede adaptarse según el nivel y ritmo de cada niño.`,
-`Es ideal para las primeras etapas del aprendizaje ✨ Más que una edad exacta, lo importante es que el pequeño esté comenzando a practicar trazos, letras y sílabas.`,
-`Puede utilizarse con niños que están iniciando el reconocimiento de sonidos, letras y escritura 💛 Cada pequeño avanza a su propio ritmo.`,
-];
-return agregarCierre(elegirAleatoria(respuestasEdad));
-}
-if (
-textoNormalizado.includes("sirve para leer") ||
-textoNormalizado.includes("aprender a leer") ||
-textoNormalizado.includes("ayuda a leer") ||
-textoNormalizado.includes("lectura") ||
-textoNormalizado.includes("leer") ||
-textoNormalizado.includes("silabas")
-) {
-const respuestasLectura = [
-`Sí, el material apoya la lectura inicial mediante la práctica de sonidos, letras y sílabas 📚 Los juegos extras ayudan a reforzar estos aprendizajes de forma divertida.`,
-`Puede utilizarse como apoyo para comenzar a reconocer sonidos, letras y sílabas ✨ El avance depende de la práctica y del ritmo de cada pequeño.`,
-`El método ayuda a reforzar habilidades necesarias para la lectura inicial 💛 Es un proceso paso a paso y no promete resultados inmediatos.`,
-];
-return agregarCierre(elegirAleatoria(respuestasLectura));
-}
-if (
-textoNormalizado.includes("confiable") ||
-textoNormalizado.includes("confianza") ||
-textoNormalizado.includes("seguro") ||
-textoNormalizado.includes("estafa") ||
-textoNormalizado.includes("fraude") ||
-textoNormalizado.includes("si es real")
-) {
-const respuestasConfianza = [
-`Comprendo que quieras sentir seguridad antes de comprar 💛 El material sí se entrega: después de verificar el pago, recibes todos los PDF directamente por WhatsApp.`,
-`Es normal querer confirmar que recibirás tu compra 📚 Una vez enviado el comprobante y confirmado el pago, se realiza la entrega completa por WhatsApp.`,
-`Puedes tener tranquilidad de que el material se entrega después de verificar el pago ✨ Recibirás el método y todos sus bonus digitales por WhatsApp.`,
-];
-return agregarCierre(elegirAleatoria(respuestasConfianza));
-}
-if (
-textoNormalizado.includes("transferencia") ||
-textoNormalizado.includes("oxxo") ||
-textoNormalizado.includes("deposito") ||
-textoNormalizado.includes("datos bancarios") ||
-textoNormalizado.includes("numero de cuenta") ||
-textoNormalizado.includes("a nombre de quien") ||
-textoNormalizado.includes("titular")
-) {
-const respuestasMetodoPago = [
-`Puedes realizar el pago por transferencia bancaria o depósito en Oxxo ✨ La cuenta está registrada a nombre de Alessa Díaz, directora y administradora del proyecto.`,
-`Aceptamos transferencia bancaria y depósito en Oxxo 💛 Los datos de pago aparecen a nombre de Alessa Díaz.`,
-`El pago puede hacerse mediante transferencia o depósito en Oxxo 📚 La titular de la cuenta es Alessa Díaz, directora y administradora del proyecto.`,
-];
-return elegirAleatoria(respuestasMetodoPago);
-}
-if (
-textoNormalizado.includes("dificultad") ||
-textoNormalizado.includes("problema para escribir") ||
-textoNormalizado.includes("no sabe escribir") ||
-textoNormalizado.includes("confunde letras") ||
-textoNormalizado.includes("motricidad") ||
-textoNormalizado.includes("no agarra el lapiz") ||
-textoNormalizado.includes("dislexia") ||
-textoNormalizado.includes("tdah") ||
-textoNormalizado.includes("retraso")
-) {
-const respuestasDificultades = [
-`Comprendo tu preocupación 💛 El grafismo fonético puede utilizarse como ejercicio de estimulación y práctica, pero cada pequeño avanza a su propio ritmo. Para una duda específica, lo recomendable es consultar con su maestra o un especialista.`,
-`Cada niño desarrolla sus habilidades a un ritmo diferente 📚 Este material puede ayudarle a practicar de forma gradual y divertida, sin presionarlo. Para valorar una dificultad concreta, es importante apoyarse en su maestra o en un especialista.`,
-`El material puede servir como apoyo para practicar trazos, sonidos y escritura paso a paso ✨ No sustituye una valoración profesional.`,
-];
-return agregarCierre(elegirAleatoria(respuestasDificultades));
-}
-return null;
-}
+
+// ==========================================================
+// RUTA DE SALUD
+// ==========================================================
+
 app.get("/", (req, res) => {
-res.send("Bot ventas activo ✅");
+  res.send("Agente Julieta Navarro - Manitas Listas activo ✅");
 });
+
+// ==========================================================
+// MENSAJES DE MANYCHAT
+// ==========================================================
+
 app.post("/mensaje", async (req, res) => {
-try {
-const texto = req.body.texto || req.body.mensaje || req.body.message || "";
-console.log("Texto recibido:", texto);
-if (!texto) {
-return res.json({ respuesta: cierrePago() });
-}
-const textoNormalizado = normalizarTexto(texto);
-const directa = respuestaDirecta(textoNormalizado);
-if (directa) {
-console.log("Respuesta directa:", directa);
-return res.json({ respuesta: directa });
-}
-const response = await openai.responses.create({
-model: "gpt-4.1-mini",
-temperature: 0.4,
-input: [
-{ role: "system", content: SYSTEM_PROMPT },
-{ role: "user", content: texto },
-],
+  try {
+    const texto =
+      req.body.texto ||
+      req.body.mensaje ||
+      req.body.message ||
+      "";
+
+    console.log(
+      "Mensaje recibido:",
+      texto ? "[contenido recibido]" : "[vacío]"
+    );
+
+    if (!texto) {
+      return res.json({
+        respuesta:
+          "No pude identificar el mensaje. Por favor, escríbelo nuevamente.",
+      });
+    }
+
+    const textoNormalizado = normalizarTexto(texto);
+
+    // Primero busca una respuesta oficial directa.
+    const directa = respuestaDirecta(textoNormalizado);
+
+    if (directa) {
+      console.log(
+        "Intención detectada:",
+        directa.intencion
+      );
+
+      console.log(
+        "Respuesta generada mediante base de conocimiento"
+      );
+
+      return res.json({
+        respuesta: directa.respuesta,
+      });
+    }
+
+    // Si no coincide con una intención directa,
+    // consulta OpenAI utilizando únicamente la base oficial.
+    console.log(
+      "Intención detectada: consulta abierta"
+    );
+
+    const response = await openai.responses.create({
+      model: "gpt-4.1-mini",
+      temperature: 0.4,
+      input: [
+        {
+          role: "system",
+          content: SYSTEM_PROMPT,
+        },
+        {
+          role: "user",
+          content: texto,
+        },
+      ],
+    });
+
+    const respuestaIA =
+      response.output_text || "";
+
+    const respuestaFinal = agregarCierre(
+      respuestaIA,
+      textoNormalizado
+    );
+
+    console.log(
+      "Respuesta generada mediante OpenAI"
+    );
+
+    return res.json({
+      respuesta: respuestaFinal,
+    });
+  } catch (error) {
+    console.error(
+      "Error en /mensaje:",
+      error.message
+    );
+
+    return res.status(200).json({
+      respuesta:
+        "En este momento no pude procesar tu mensaje. Por favor, inténtalo nuevamente en unos minutos.",
+    });
+  }
 });
-const respuestaIA = response.output_text || "";
-const respuestaFinal = agregarCierre(respuestaIA);
-console.log("Respuesta enviada:", respuestaFinal);
-return res.json({ respuesta: respuestaFinal });
-} catch (error) {
-console.error("Error en /mensaje:", error);
-return res.json({ respuesta: cierrePago() });
-}
-});
+
+// ==========================================================
+// SERVIDOR
+// ==========================================================
+
 app.listen(PORT, () => {
-console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log(
+    `Servidor de Julieta Navarro activo en puerto ${PORT}`
+  );
 });
