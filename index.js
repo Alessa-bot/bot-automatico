@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -19,18 +20,18 @@ const PORT = process.env.PORT || 8080;
 const SYSTEM_PROMPT = `
 Eres Julieta Navarro, asistente de Manitas Listas.
 
-Tu función principal es responder y resolver dudas por WhatsApp sobre el Pack de Tablas de Multiplicar.
+Tu función principal es responder y resolver dudas por WhatsApp sobre el Pack Nail Art a Mano Alzada.
 
 PERSONALIDAD Y TONO:
 - Sé amable, cálida, paciente, comprensiva, cercana y respetuosa.
-- Comunícate especialmente pensando en mamás, maestras y abuelas.
+- Comunícate especialmente pensando en manicuristas, técnicas de uñas y personas que desean aprender decoración de uñas.
 - Trata de comprender la duda antes de responder.
 - Responde de forma humana y natural.
 - Nunca suenes robótica.
 - Mantén tus respuestas breves, claras y útiles.
 - Responde normalmente en uno o dos párrafos cortos.
 - No presiones a la persona para comprar.
-- Mantente enfocada en resolver dudas relacionadas con el material, su contenido, contribuciones, pagos y entrega.
+- Mantente enfocada en resolver dudas relacionadas con el material, su contenido, precio, pagos y entrega.
 - No te desvíes hacia temas ajenos al negocio.
 
 INFORMACIÓN OFICIAL DEL NEGOCIO:
@@ -39,62 +40,59 @@ Negocio:
 Manitas Listas.
 
 Producto:
-Pack de Tablas de Multiplicar.
+Pack Nail Art a Mano Alzada.
 
 Tipo de producto:
 Material 100 % digital en formato PDF, descargable e imprimible.
 
 Objetivo:
-Ayudar y orientar de manera amable a mamás, maestras y abuelas interesadas en apoyar el aprendizaje de los pequeños.
+Orientar a personas interesadas en practicar diseños de uñas, mejorar sus trazos y controlar mejor el pincel mediante ejercicios repetibles.
 Debes resolver sus dudas con claridad, acompañarlas durante el proceso y guiarlas cuando lo necesiten.
 
-CONTRIBUCIONES:
-- $90 MXN
-- $130 MXN
-- $170 MXN
-
-La contribución es un apoyo que ayuda a Manitas Listas a seguir creando materiales educativos para los pequeños.
+PRECIO FIJO:
+- $99 MXN por el paquete completo. No es una contribución voluntaria.
 
 MÉTODOS DE PAGO:
 - Transferencia
 - OXXO/Spin
 
 Los datos específicos de pago son mostrados por el flujo de ManyChat.
-Nunca inventes, escribas ni proporciones números de cuenta, tarjetas, CLABE, códigos QR u otros datos bancarios si no fueron proporcionados expresamente.
+Nunca inventes, escribas ni proporciones números de cuenta, tarjetas, CLABE, códigos QR u otros datos bancarios.
 
 FORMA DE ENTREGA:
-El material completo se libera después de que la contribución haya sido validada.
+El material completo se libera después de que el pago haya sido validado.
 Se envía directamente por WhatsApp en formato PDF.
+No se envían productos físicos ni pegatinas físicas.
 
 CONTENIDO DEL PACK:
-Incluye diferentes recursos para practicar y reforzar las tablas de multiplicar:
-- Cuadernillos de multiplicación.
-- Oruguitas de secuencias.
-- Actividades recortables y manipulativas.
-- Recursos visuales.
-- Fichas de trabajo.
-- Juegos didácticos como dominó, comecocos y pádel.
-- Llaveros temáticos.
+Incluye 8 archivos PDF, con 5 materiales principales y 3 bonos:
+- Plantillas de práctica de trazos finos y control del pulso.
+- Ejercicios de líneas, curvas, flores y figuras decorativas.
+- Modelos de práctica sobre siluetas de uñas.
+- Ejercicios de delineado y trabajo con acrílico.
+- Diseños y plantillas para elaborar pegatinas artesanales para uñas.
+- Colecciones de stickers y diseños temáticos como bonos.
+Los archivos son plantillas y material de práctica, no un curso presencial ni una clase en video.
+Las plantillas se pueden imprimir y usar con una lámina transparente para practicar varias veces.
 
-EDAD:
-Está recomendado principalmente para niños a partir de los 7 años que estén comenzando a aprender las tablas de multiplicar o necesiten reforzarlas.
-También puede utilizarse con niños mayores que todavía tengan dificultad con las tablas.
+PÚBLICO:
+Dirigido a principiantes, manicuristas y personas que quieren practicar la decoración de uñas a mano alzada. No se establece una edad mínima específica en la información oficial.
 
 REGLAS IMPORTANTES:
 - Nunca inventes información.
 - Utiliza exclusivamente la información oficial de Manitas Listas.
 - No inventes productos, precios, promociones, métodos de pago, edades, condiciones, garantías ni beneficios.
 - No afirmes que el material es físico.
-- No prometas entregas antes de validar la contribución.
+- No prometas resultados perfectos ni dominio garantizado del pulso.
+- No prometas entregas antes de validar el pago.
 - No proporciones datos bancarios desde el agente.
-- No cambies los precios oficiales.
+- No cambies el precio oficial de $99 MXN.
 - Si no tienes información suficiente para responder una duda, indica de manera natural que necesitas confirmar ese dato con el equipo.
-- No diagnostiques problemas de aprendizaje ni hagas afirmaciones médicas o educativas que no estén autorizadas.
 - Tu función principal es resolver dudas.
 
 LLAMADO A LA ACCIÓN:
 Cuando sea apropiado orientar a la persona para continuar, puedes decir:
-"Puedes continuar con la opción de pago que prefieras para realizar tu contribución 😊."
+"Si deseas adquirir el paquete por $99 MXN, puedes elegir el método de pago que prefieras 😊."
 
 No agregues este llamado a la acción en todas las respuestas.
 Úsalo solamente cuando la persona muestre intención de continuar, pregunte por precio, pago, cómo obtener el material o solicite información para adquirirlo.
@@ -137,9 +135,9 @@ function contieneAlguna(texto, palabras) {
 
 function cierreComercial() {
   const cierres = [
-    "Puedes continuar con la opción de pago que prefieras para realizar tu contribución 😊.",
-    "Si deseas continuar, puedes elegir la opción de pago que prefieras para realizar tu contribución 💛.",
-    "Cuando gustes continuar, puedes seleccionar el método de pago que prefieras 😊.",
+    "Si deseas adquirir el paquete por $99 MXN, puedes elegir el método de pago que prefieras 😊.",
+    "Si te interesa el paquete completo por $99 MXN, puedes elegir cómo prefieres pagar 💛.",
+    "Cuando gustes adquirir el paquete por $99 MXN, puedes seleccionar tu método de pago 😊.",
   ];
 
   return elegirAleatoria(cierres);
@@ -210,9 +208,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Entiendo tu preocupación 😊. Una vez validada tu contribución, el material se libera y se envía directamente por WhatsApp. Si tienes alguna duda durante el proceso, con gusto te orientamos. ❤️",
+      "Entiendo tu preocupación 😊. El paquete digital de Nail Art se entrega por WhatsApp después de validar tu pago. Si tienes alguna duda durante el proceso, con gusto te orientamos. ❤️",
 
-      "Comprendo tu duda 😊. Después de validar tu contribución, recibirás el material directamente por WhatsApp. Si necesitas orientación durante el proceso, con gusto te ayudamos. ❤️",
+      "Comprendo tu duda 😊. Después de validar el pago, recibirás los PDF de Nail Art directamente por WhatsApp. Si necesitas orientación, con gusto te ayudamos. ❤️",
     ];
 
     return {
@@ -239,9 +237,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "El material es 100 % digital en formato PDF 😊, por lo que no requiere envío a domicilio. Después de validar tu contribución, lo recibes directamente por WhatsApp.",
+      "El paquete de Nail Art es 100 % digital en PDF 😊, así que no requiere envío a domicilio. Después de validar tu pago, lo recibes por WhatsApp.",
 
-      "No necesitas esperar un envío a domicilio 😊. El Pack es digital en formato PDF y, después de validar tu contribución, se envía directamente por WhatsApp.",
+      "No necesitas esperar paquetería 😊. Son archivos PDF imprimibles que se envían por WhatsApp después de validar tu pago.",
     ];
 
     return {
@@ -262,16 +260,16 @@ function respuestaDirecta(textoNormalizado) {
       "cuánto cuesta",
       "cuanto vale",
       "cuánto vale",
-      "aportacion",
-      "aportación",
-      "contribucion",
-      "contribución",
+      "99 pesos",
+      "99 mxn",
+      "cuanto sale",
+      "precio del pack",
     ])
   ) {
     const respuestas = [
-      "Manejamos tres opciones de contribución: $90, $130 y $170 MXN 😊. Puedes elegir la que esté dentro de tus posibilidades. Tu contribución es un apoyo que nos ayuda a seguir creando materiales educativos para los pequeños. ❤️",
+      "El Pack Nail Art a Mano Alzada cuesta $99 MXN en total 😊. Incluye los materiales de práctica y los bonos de stickers en formato PDF. 💅",
 
-      "Tenemos contribuciones de $90, $130 y $170 MXN 😊. Puedes elegir la opción que esté dentro de tus posibilidades. Cada apoyo nos ayuda a continuar creando materiales educativos para los pequeños. ❤️",
+      "El precio del paquete completo de Nail Art es fijo: $99 MXN 😊. Recibes los PDF de práctica y los bonos de stickers después de validar tu pago. 💅",
     ];
 
     return {
@@ -304,9 +302,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Puedes realizar tu contribución mediante Transferencia u OXXO/Spin 😊. Selecciona la opción de pago que prefieras para continuar y ver los datos correspondientes.",
+      "Puedes pagar los $99 MXN mediante Transferencia u OXXO/Spin 😊. Selecciona la opción que prefieras para ver los datos de pago en el flujo.",
 
-      "Tenemos disponibles Transferencia y OXXO/Spin 😊. Puedes seleccionar el método de pago que prefieras para continuar y consultar los datos correspondientes.",
+      "Aceptamos Transferencia y OXXO/Spin 😊. Elige el método que prefieras para consultar los datos correspondientes.",
     ];
 
     return {
@@ -338,9 +336,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Es un material 100 % digital en formato PDF 😊. Después de validar tu contribución, recibirás el material directamente por WhatsApp para que puedas descargarlo e imprimirlo.",
+      "Es un paquete 100 % digital en PDF 😊. Después de validar tu pago, lo recibirás por WhatsApp para descargarlo e imprimirlo. No incluye productos físicos.",
 
-      "El Pack es completamente digital y se entrega en formato PDF 😊. Una vez validada tu contribución, lo recibirás directamente por WhatsApp para descargarlo e imprimirlo.",
+      "El Pack Nail Art se entrega en PDF 😊. Una vez validado el pago, lo recibirás por WhatsApp para descargarlo e imprimirlo.",
     ];
 
     return {
@@ -350,7 +348,7 @@ function respuestaDirecta(textoNormalizado) {
   }
 
   // ----------------------------------------------------------
-  // 6. EDAD
+  // 6. PÚBLICO / EXPERIENCIA
   // ----------------------------------------------------------
 
   if (
@@ -363,17 +361,17 @@ function respuestaDirecta(textoNormalizado) {
       "para qué edad",
       "que edad",
       "qué edad",
-      "niño de",
-      "nino de",
-      "niña de",
-      "nina de",
-      "primaria",
+      "principiante",
+      "principiantes",
+      "manicurista",
+      "para quien es",
+      "necesito experiencia",
     ])
   ) {
     const respuestas = [
-      "Está recomendado principalmente para niños a partir de los 7 años 😊, que estén comenzando a aprender las tablas de multiplicar o necesiten reforzarlas. También puede utilizarse con niños mayores que todavía tengan dificultad con las tablas.",
+      "Está pensado para principiantes y manicuristas que desean practicar trazos y decoración de uñas 😊. No tenemos una edad mínima específica indicada para el material.",
 
-      "Se recomienda principalmente a partir de los 7 años 😊, tanto para pequeños que comienzan con las tablas como para niños mayores que todavía necesitan practicarlas y reforzarlas.",
+      "El paquete es para personas que quieren aprender o practicar Nail Art a mano alzada 😊, desde principiantes hasta manicuristas que desean mejorar su precisión.",
     ];
 
     return {
@@ -383,7 +381,7 @@ function respuestaDirecta(textoNormalizado) {
   }
 
   // ----------------------------------------------------------
-  // 7. QUÉ INCLUYE
+  // 7. QUÉ INCLUYE / STICKERS
   // ----------------------------------------------------------
 
   if (
@@ -396,14 +394,18 @@ function respuestaDirecta(textoNormalizado) {
       "contenido",
       "que contiene",
       "qué contiene",
-      "actividades",
-      "juegos",
+      "plantillas",
+      "stickers",
+      "pegatinas",
+      "trazos",
+      "acrilico",
+      "diseños",
     ])
   ) {
     const respuestas = [
-      "El Pack de Tablas de Multiplicar incluye diferentes recursos para practicar y reforzar las tablas 😊: cuadernillos de multiplicación, oruguitas de secuencias, actividades recortables y manipulativas, recursos visuales, fichas de trabajo y juegos didácticos como dominó, comecocos y pádel. También incluye llaveros temáticos. 📚✨",
+      "El Pack Nail Art incluye 8 PDF 😊: plantillas de trazos finos, control del pulso, ejercicios de líneas y flores, modelos sobre siluetas de uñas y prácticas de delineado y acrílico. También incluye bonos con diseños para elaborar stickers. 💅✨",
 
-      "Incluye diferentes materiales para practicar y reforzar las tablas 😊: cuadernillos de multiplicación, oruguitas de secuencias, fichas de trabajo, recursos visuales, actividades recortables y manipulativas, juegos como dominó, comecocos y pádel, además de llaveros temáticos. 📚✨",
+      "Recibes materiales de práctica de Nail Art 😊: trazos finos, figuras decorativas, delineado, ejercicios de pulso y trabajo con acrílico, además de colecciones de stickers como bonos. Son 8 PDF digitales e imprimibles. 💅✨",
     ];
 
     return {
@@ -432,9 +434,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Sí 😊. Una vez que tu contribución sea validada, el material se libera y se envía directamente por WhatsApp. Si tienes alguna duda durante el proceso, con gusto te orientamos. ❤️",
+      "Sí 😊. Una vez validado tu pago, el material digital de Nail Art se libera y se envía por WhatsApp. Si necesitas orientación, con gusto te ayudamos. ❤️",
 
-      "Claro 😊. Después de validar tu contribución, el material se libera y se entrega directamente por WhatsApp. Si necesitas ayuda durante el proceso, con gusto te orientamos. ❤️",
+      "Claro 😊. Después de validar tu pago, se entrega el paquete digital de Nail Art por WhatsApp. Si necesitas ayuda, con gusto te orientamos. ❤️",
     ];
 
     return {
@@ -462,9 +464,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Una vez que tu contribución sea validada, se libera el material y lo recibes directamente por WhatsApp 😊.",
+      "Una vez validado tu pago de $99 MXN, se libera el paquete y lo recibes directamente por WhatsApp 😊.",
 
-      "Después de validar tu contribución, el Pack se libera y se envía directamente por WhatsApp 😊.",
+      "Después de validar tu pago, el Pack Nail Art se envía directamente por WhatsApp en PDF 😊.",
     ];
 
     return {
@@ -492,9 +494,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Claro 😊. Es un Pack de Tablas de Multiplicar con diferentes actividades y juegos didácticos para ayudar a los pequeños a practicar y reforzar las tablas de una manera más dinámica. Si tienes alguna duda sobre el material, con gusto te ayudo. ❤️",
+      "Claro 😊. Es un paquete digital de práctica de Nail Art a mano alzada con ejercicios para mejorar trazos, control del pincel y diseños decorativos. Incluye bonos de stickers. Si tienes alguna duda, con gusto te ayudo. ❤️",
 
-      "Con gusto 😊. El Pack reúne diferentes actividades y juegos didácticos para que los pequeños puedan practicar y reforzar las tablas de multiplicar de una forma más dinámica. Si quieres saber algo específico, con gusto te ayudo. ❤️",
+      "Con gusto 😊. El Pack Nail Art reúne plantillas imprimibles para practicar líneas, flores, figuras y diseños de uñas, además de bonos para elaborar stickers. Si quieres saber algo específico, con gusto te ayudo. ❤️",
     ];
 
     return {
