@@ -20,82 +20,61 @@ const PORT = process.env.PORT || 8080;
 const SYSTEM_PROMPT = `
 Eres Julieta Navarro, asistente de Manitas Listas.
 
-Tu función principal es responder y resolver dudas por WhatsApp sobre el Pack Nail Art a Mano Alzada.
+Tu función principal es responder y resolver dudas por WhatsApp sobre el Pack de Lectoescritura.
 
 PERSONALIDAD Y TONO:
 - Sé amable, cálida, paciente, comprensiva, cercana y respetuosa.
-- Comunícate especialmente pensando en manicuristas, técnicas de uñas y personas que desean aprender decoración de uñas.
-- Trata de comprender la duda antes de responder.
-- Responde de forma humana y natural.
-- Nunca suenes robótica.
-- Mantén tus respuestas breves, claras y útiles.
+- Comunícate pensando en madres, padres, docentes y personas que acompañan la lectoescritura inicial.
+- Comprende la duda antes de responder y mantén respuestas humanas, breves y claras.
 - Responde normalmente en uno o dos párrafos cortos.
-- No presiones a la persona para comprar.
-- Mantente enfocada en resolver dudas relacionadas con el material, su contenido, precio, pagos y entrega.
-- No te desvíes hacia temas ajenos al negocio.
+- No presiones a la persona para comprar ni te desvíes a otros productos.
 
 INFORMACIÓN OFICIAL DEL NEGOCIO:
-
-Negocio:
-Manitas Listas.
-
-Producto:
-Pack Nail Art a Mano Alzada.
-
-Tipo de producto:
-Material 100 % digital en formato PDF, descargable e imprimible.
-
-Objetivo:
-Orientar a personas interesadas en practicar diseños de uñas, mejorar sus trazos y controlar mejor el pincel mediante ejercicios repetibles.
-Debes resolver sus dudas con claridad, acompañarlas durante el proceso y guiarlas cuando lo necesiten.
+Negocio: Manitas Listas.
+Producto: Pack de Lectoescritura.
+Tipo de producto: Material 100 % digital en PDF, descargable e imprimible.
+Objetivo: acompañar el reconocimiento de letras y sonidos, las sílabas, la formación de palabras, la escritura y la lectura inicial mediante actividades prácticas.
 
 PRECIO FIJO:
-- $99 MXN por el paquete completo. No es una contribución voluntaria.
+- $89 MXN por el paquete completo. No es contribución voluntaria.
 
 MÉTODOS DE PAGO:
-- Transferencia
-- OXXO/Spin
-
-Los datos específicos de pago son mostrados por el flujo de ManyChat.
-Nunca inventes, escribas ni proporciones números de cuenta, tarjetas, CLABE, códigos QR u otros datos bancarios.
+- Transferencia.
+- OXXO/Spin.
+Los datos específicos de pago son mostrados por ManyChat. Nunca inventes datos bancarios.
 
 FORMA DE ENTREGA:
-El material completo se libera después de que el pago haya sido validado.
-Se envía directamente por WhatsApp en formato PDF.
-No se envían productos físicos ni pegatinas físicas.
+El material se envía digitalmente por WhatsApp después de confirmar el pago.
+No hay envío físico ni se promete entrega inmediata.
 
 CONTENIDO DEL PACK:
-Incluye 8 archivos PDF, con 5 materiales principales y 3 bonos:
-- Plantillas de práctica de trazos finos y control del pulso.
-- Ejercicios de líneas, curvas, flores y figuras decorativas.
-- Modelos de práctica sobre siluetas de uñas.
-- Ejercicios de delineado y trabajo con acrílico.
-- Diseños y plantillas para elaborar pegatinas artesanales para uñas.
-- Colecciones de stickers y diseños temáticos como bonos.
-Los archivos son plantillas y material de práctica, no un curso presencial ni una clase en video.
-Las plantillas se pueden imprimir y usar con una lámina transparente para practicar varias veces.
+- Familias silábicas interactivas de todas las consonantes, incluyendo CH y LL, sin RR como familia independiente.
+- Personajes para colorear, recortar y doblar, por ejemplo mono (MA ME MI MO MU), pato (PA PE PI PO PU), sapo (SA SE SI SO SU) y tigre (TA TE TI TO TU).
+- Detective de sílabas.
+- Construyo palabras de dos sílabas.
+- Escribe la sílaba que falta.
+- Fichas para identificar y colorear la sílaba inicial.
+- Silabario.
+REGALOS INCLUIDOS SIN COSTO EXTRA:
+- UNO silábico.
+- Dominó silábico.
 
 PÚBLICO:
-Dirigido a principiantes, manicuristas y personas que quieren practicar la decoración de uñas a mano alzada. No se establece una edad mínima específica en la información oficial.
+Familias, docentes y pequeños en proceso de lectoescritura inicial. No inventes edades o grados exactos ni garantices resultados.
 
 REGLAS IMPORTANTES:
-- Nunca inventes información.
-- Utiliza exclusivamente la información oficial de Manitas Listas.
-- No inventes productos, precios, promociones, métodos de pago, edades, condiciones, garantías ni beneficios.
-- No afirmes que el material es físico.
-- No prometas resultados perfectos ni dominio garantizado del pulso.
-- No prometas entregas antes de validar el pago.
-- No proporciones datos bancarios desde el agente.
-- No cambies el precio oficial de $99 MXN.
-- Si no tienes información suficiente para responder una duda, indica de manera natural que necesitas confirmar ese dato con el equipo.
-- Tu función principal es resolver dudas.
+- Responde la pregunta real y no inventes información.
+- No inventes páginas, archivos, promociones, garantías, enlaces ni datos bancarios.
+- No afirmes que un pago fue confirmado ni que ya entregaste archivos.
+- No cambies el precio oficial de $89 MXN.
+- Si preguntan por Lectoescritura, uñas u otro producto, indica amablemente que atiendes dudas del Pack de Lectoescritura y ofrece consultar al equipo.
+- Si no tienes información suficiente, indica que necesitas confirmar con el equipo.
+- Tu función principal es resolver dudas, no presionar para comprar.
 
 LLAMADO A LA ACCIÓN:
 Cuando sea apropiado orientar a la persona para continuar, puedes decir:
-"Si deseas adquirir el paquete por $99 MXN, puedes elegir el método de pago que prefieras 😊."
-
+"Si deseas adquirir el Pack de Lectoescritura por $89 MXN, puedes elegir tu método de pago 😊."
 No agregues este llamado a la acción en todas las respuestas.
-Úsalo solamente cuando la persona muestre intención de continuar, pregunte por precio, pago, cómo obtener el material o solicite información para adquirirlo.
 `;
 
 // ==========================================================
@@ -135,9 +114,9 @@ function contieneAlguna(texto, palabras) {
 
 function cierreComercial() {
   const cierres = [
-    "Si deseas adquirir el paquete por $99 MXN, puedes elegir el método de pago que prefieras 😊.",
-    "Si te interesa el paquete completo por $99 MXN, puedes elegir cómo prefieres pagar 💛.",
-    "Cuando gustes adquirir el paquete por $99 MXN, puedes seleccionar tu método de pago 😊.",
+    "Si deseas adquirir el paquete por $89 MXN, puedes elegir el método de pago que prefieras 😊.",
+    "Si te interesa el paquete completo por $89 MXN, puedes elegir cómo prefieres pagar 💛.",
+    "Cuando gustes adquirir el paquete por $89 MXN, puedes seleccionar tu método de pago 😊.",
   ];
 
   return elegirAleatoria(cierres);
@@ -208,9 +187,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Entiendo tu preocupación 😊. El paquete digital de Nail Art se entrega por WhatsApp después de validar tu pago. Si tienes alguna duda durante el proceso, con gusto te orientamos. ❤️",
+      "El paquete digital de Lectoescritura se entrega por WhatsApp después de confirmar el pago.",
 
-      "Comprendo tu duda 😊. Después de validar el pago, recibirás los PDF de Nail Art directamente por WhatsApp. Si necesitas orientación, con gusto te ayudamos. ❤️",
+      "Después de confirmar el pago, recibirás los PDF del Pack de Lectoescritura directamente por WhatsApp.",
     ];
 
     return {
@@ -237,9 +216,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "El paquete de Nail Art es 100 % digital en PDF 😊, así que no requiere envío a domicilio. Después de validar tu pago, lo recibes por WhatsApp.",
+      "El Pack de Lectoescritura es 100 % digital en PDF y no requiere envío a domicilio. Después de confirmar tu pago, lo recibes por WhatsApp.",
 
-      "No necesitas esperar paquetería 😊. Son archivos PDF imprimibles que se envían por WhatsApp después de validar tu pago.",
+      "No necesitas esperar paquetería. Son archivos PDF imprimibles que se envían por WhatsApp después de confirmar el pago.",
     ];
 
     return {
@@ -260,16 +239,16 @@ function respuestaDirecta(textoNormalizado) {
       "cuánto cuesta",
       "cuanto vale",
       "cuánto vale",
-      "99 pesos",
-      "99 mxn",
+      "89 pesos",
+      "89 mxn",
       "cuanto sale",
       "precio del pack",
     ])
   ) {
     const respuestas = [
-      "El Pack Nail Art a Mano Alzada cuesta $99 MXN en total 😊. Incluye los materiales de práctica y los bonos de stickers en formato PDF. 💅",
+      "El Pack de Lectoescritura cuesta $89 MXN en total. Incluye las familias silábicas, actividades de lectoescritura, UNO y Dominó silábicos de regalo. 📚",
 
-      "El precio del paquete completo de Nail Art es fijo: $99 MXN 😊. Recibes los PDF de práctica y los bonos de stickers después de validar tu pago. 💅",
+      "El precio del Pack de Lectoescritura es fijo: $89 MXN. Incluye todas las consonantes, actividades complementarias y dos juegos silábicos de regalo. 📚",
     ];
 
     return {
@@ -302,9 +281,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Puedes pagar los $99 MXN mediante Transferencia u OXXO/Spin 😊. Selecciona la opción que prefieras para ver los datos de pago en el flujo.",
+      "Puedes pagar los $89 MXN mediante transferencia u OXXO/Spin. Selecciona tu método para ver los datos de pago en el flujo.",
 
-      "Aceptamos Transferencia y OXXO/Spin 😊. Elige el método que prefieras para consultar los datos correspondientes.",
+      "Aceptamos transferencia y OXXO/Spin. Elige el método que prefieras para consultar los datos correspondientes.",
     ];
 
     return {
@@ -336,9 +315,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Es un paquete 100 % digital en PDF 😊. Después de validar tu pago, lo recibirás por WhatsApp para descargarlo e imprimirlo. No incluye productos físicos.",
+      "El Pack de Lectoescritura es 100 % digital en PDF. Después de confirmar tu pago, lo recibes por WhatsApp para descargarlo e imprimirlo.",
 
-      "El Pack Nail Art se entrega en PDF 😊. Una vez validado el pago, lo recibirás por WhatsApp para descargarlo e imprimirlo.",
+      "El Pack de Lectoescritura se entrega en PDF. Una vez confirmado el pago, lo recibirás por WhatsApp para imprimirlo.",
     ];
 
     return {
@@ -361,17 +340,17 @@ function respuestaDirecta(textoNormalizado) {
       "para qué edad",
       "que edad",
       "qué edad",
-      "principiante",
-      "principiantes",
-      "manicurista",
+      "preescolar",
+      "primaria",
+      "preescolar",
       "para quien es",
-      "necesito experiencia",
+      "primer grado",
     ])
   ) {
     const respuestas = [
-      "Está pensado para principiantes y manicuristas que desean practicar trazos y decoración de uñas 😊. No tenemos una edad mínima específica indicada para el material.",
+      "Está pensado para niños que comienzan a reconocer letras, sílabas y palabras, con apoyo de familias o docentes. No se establece una edad exacta.",
 
-      "El paquete es para personas que quieren aprender o practicar Nail Art a mano alzada 😊, desde principiantes hasta manicuristas que desean mejorar su precisión.",
+      "Es un apoyo para la lectoescritura inicial, en casa o en el aula, según el avance de cada niño.",
     ];
 
     return {
@@ -394,18 +373,18 @@ function respuestaDirecta(textoNormalizado) {
       "contenido",
       "que contiene",
       "qué contiene",
-      "plantillas",
-      "stickers",
-      "pegatinas",
-      "trazos",
-      "acrilico",
-      "diseños",
+      "detective de silabas",
+      "silabario",
+      "familias silabicas",
+      "consonantes",
+      "silabas",
+      "actividades",
     ])
   ) {
     const respuestas = [
-      "El Pack Nail Art incluye 8 PDF 😊: plantillas de trazos finos, control del pulso, ejercicios de líneas y flores, modelos sobre siluetas de uñas y prácticas de delineado y acrílico. También incluye bonos con diseños para elaborar stickers. 💅✨",
+      "El Pack de Lectoescritura incluye familias silábicas de todas las consonantes, incluyendo CH y LL; Detective de sílabas, Construyo palabras de dos sílabas, Escribe la sílaba que falta, fichas de sílaba inicial y silabario. De regalo UNO y Dominó silábicos. 📚",
 
-      "Recibes materiales de práctica de Nail Art 😊: trazos finos, figuras decorativas, delineado, ejercicios de pulso y trabajo con acrílico, además de colecciones de stickers como bonos. Son 8 PDF digitales e imprimibles. 💅✨",
+      "Recibes familias silábicas interactivas para colorear, recortar y doblar, actividades para identificar y formar sílabas y palabras, y un silabario. Incluye UNO y Dominó silábicos de regalo. 📚",
     ];
 
     return {
@@ -434,9 +413,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Sí 😊. Una vez validado tu pago, el material digital de Nail Art se libera y se envía por WhatsApp. Si necesitas orientación, con gusto te ayudamos. ❤️",
+      "Después de confirmar tu pago, el Pack de Lectoescritura se envía por WhatsApp. Si necesitas orientación, con gusto te ayudamos.",
 
-      "Claro 😊. Después de validar tu pago, se entrega el paquete digital de Nail Art por WhatsApp. Si necesitas ayuda, con gusto te orientamos. ❤️",
+      "El material digital de lectoescritura se entrega por WhatsApp después de confirmar el pago. Con gusto te orientamos si tienes dudas.",
     ];
 
     return {
@@ -464,9 +443,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Una vez validado tu pago de $99 MXN, se libera el paquete y lo recibes directamente por WhatsApp 😊.",
+      "Una vez confirmado tu pago de $89 MXN, el Pack de Lectoescritura y sus regalos se envían por WhatsApp.",
 
-      "Después de validar tu pago, el Pack Nail Art se envía directamente por WhatsApp en PDF 😊.",
+      "Después de confirmar el pago, recibes el Pack de Lectoescritura y los dos regalos por WhatsApp en PDF.",
     ];
 
     return {
@@ -494,9 +473,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Claro 😊. Es un paquete digital de práctica de Nail Art a mano alzada con ejercicios para mejorar trazos, control del pincel y diseños decorativos. Incluye bonos de stickers. Si tienes alguna duda, con gusto te ayudo. ❤️",
+      "Es un Pack de Lectoescritura digital con familias silábicas de todas las consonantes, actividades para identificar sílabas y formar palabras, silabario, UNO y Dominó silábicos de regalo.",
 
-      "Con gusto 😊. El Pack Nail Art reúne plantillas imprimibles para practicar líneas, flores, figuras y diseños de uñas, además de bonos para elaborar stickers. Si quieres saber algo específico, con gusto te ayudo. ❤️",
+      "El Pack de Lectoescritura incluye personajes silábicos interactivos, Detective de sílabas, Construyo palabras, Escribe la sílaba que falta, fichas de sílaba inicial y silabario, más dos juegos de regalo.",
     ];
 
     return {
@@ -516,7 +495,7 @@ function respuestaDirecta(textoNormalizado) {
 // ==========================================================
 
 app.get("/", (req, res) => {
-  res.send("Agente Julieta Navarro - Manitas Listas activo ✅");
+  res.send("Agente Julieta Navarro - Manitas Listas Lectoescritura activo ✅");
 });
 
 // ==========================================================
