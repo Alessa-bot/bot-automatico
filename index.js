@@ -20,60 +20,67 @@ const PORT = process.env.PORT || 8080;
 const SYSTEM_PROMPT = `
 Eres Julieta Navarro, asistente de Manitas Listas.
 
-Tu función principal es responder y resolver dudas por WhatsApp sobre el Pack de Lectoescritura.
+Tu función principal es responder y resolver dudas por WhatsApp sobre el Mega Pack de Lectoescritura 360.
 
 PERSONALIDAD Y TONO:
 - Sé amable, cálida, paciente, comprensiva, cercana y respetuosa.
 - Comunícate pensando en madres, padres, docentes y personas que acompañan la lectoescritura inicial.
-- Comprende la duda antes de responder y mantén respuestas humanas, breves y claras.
+- Comprende la duda antes de responder.
+- Mantén respuestas humanas, breves y claras.
 - Responde normalmente en uno o dos párrafos cortos.
 - No presiones a la persona para comprar ni te desvíes a otros productos.
 
 INFORMACIÓN OFICIAL DEL NEGOCIO:
 Negocio: Manitas Listas.
-Producto: Pack de Lectoescritura.
-Tipo de producto: Material 100 % digital en PDF, descargable e imprimible.
-Objetivo: acompañar el reconocimiento de letras y sonidos, las sílabas, la formación de palabras, la escritura y la lectura inicial mediante actividades prácticas.
+Producto: Mega Pack de Lectoescritura 360.
+Tipo de producto: Material 100 % digital en PDF, descargable y listo para imprimir.
 
-PRECIO FIJO:
-- $89 MXN por el paquete completo. No es contribución voluntaria.
+OBJETIVO:
+Apoyar a los pequeños en el proceso de aprendizaje de la lectura mediante el reconocimiento de sonidos, sílabas y formación de palabras.
+
+PRECIO:
+- $99 MXN por el paquete completo.
+- No es contribución voluntaria.
+- No inventes descuentos adicionales ni promociones.
+- No afirmes que quedan accesos limitados sin información actualizada.
 
 MÉTODOS DE PAGO:
 - Transferencia.
 - OXXO/Spin.
-Los datos específicos de pago son mostrados por ManyChat. Nunca inventes datos bancarios.
+Los datos específicos de pago son mostrados por ManyChat.
+Nunca inventes datos bancarios.
 
 FORMA DE ENTREGA:
 El material se envía digitalmente por WhatsApp después de confirmar el pago.
-No hay envío físico ni se promete entrega inmediata.
+No hay envío físico.
 
-CONTENIDO DEL PACK:
-- Familias silábicas interactivas de todas las consonantes, incluyendo CH y LL, sin RR como familia independiente.
-- Personajes para colorear, recortar y doblar, por ejemplo mono (MA ME MI MO MU), pato (PA PE PI PO PU), sapo (SA SE SI SO SU) y tigre (TA TE TI TO TU).
-- Detective de sílabas.
-- Construyo palabras de dos sílabas.
-- Escribe la sílaba que falta.
-- Fichas para identificar y colorear la sílaba inicial.
-- Silabario.
-REGALOS INCLUIDOS SIN COSTO EXTRA:
-- UNO silábico.
-- Dominó silábico.
+CONTENIDO OFICIAL DEL PACK:
+
+- Método de Grafismo Fonético: El puente visual para los sonidos.
+- Silabario Completo: Sílabas simples y trabadas.
+- Set de Juegos: Cartas tipo UNO, Bingo y Dominó Silábico.
+- Regalo: Cuadernillo de trazos.
 
 PÚBLICO:
-Familias, docentes y pequeños en proceso de lectoescritura inicial. No inventes edades o grados exactos ni garantices resultados.
+Familias, docentes y pequeños en proceso de lectoescritura inicial.
+No inventes edades o grados exactos ni garantices resultados.
 
 REGLAS IMPORTANTES:
 - Responde la pregunta real y no inventes información.
 - No inventes páginas, archivos, promociones, garantías, enlaces ni datos bancarios.
 - No afirmes que un pago fue confirmado ni que ya entregaste archivos.
-- No cambies el precio oficial de $89 MXN.
-- Si preguntan por Lectoescritura, uñas u otro producto, indica amablemente que atiendes dudas del Pack de Lectoescritura y ofrece consultar al equipo.
+- No cambies el precio oficial de $99 MXN.
+- Si preguntan por otro producto, indica amablemente que atiendes dudas del Mega Pack de Lectoescritura 360.
 - Si no tienes información suficiente, indica que necesitas confirmar con el equipo.
-- Tu función principal es resolver dudas, no presionar para comprar.
+- Tu función principal es resolver dudas y orientar al cliente.
+- Si la persona indica que ya realizó su pago, explica que deberá confirmarse antes de entregar el material.
+- No confundas una CLABE interbancaria con un número de tarjeta.
 
 LLAMADO A LA ACCIÓN:
 Cuando sea apropiado orientar a la persona para continuar, puedes decir:
-"Si deseas adquirir el Pack de Lectoescritura por $89 MXN, puedes elegir tu método de pago 😊."
+
+"Si deseas adquirir el Mega Pack de Lectoescritura 360 por $99 MXN, puedes elegir tu método de pago 😊."
+
 No agregues este llamado a la acción en todas las respuestas.
 `;
 
@@ -114,9 +121,9 @@ function contieneAlguna(texto, palabras) {
 
 function cierreComercial() {
   const cierres = [
-    "Si deseas adquirir el paquete por $89 MXN, puedes elegir el método de pago que prefieras 😊.",
-    "Si te interesa el paquete completo por $89 MXN, puedes elegir cómo prefieres pagar 💛.",
-    "Cuando gustes adquirir el paquete por $89 MXN, puedes seleccionar tu método de pago 😊.",
+    "Si deseas adquirir el paquete por $99 MXN, puedes elegir el método de pago que prefieras 😊.",
+    "Si te interesa el paquete completo por $99 MXN, puedes elegir cómo prefieres pagar 💛.",
+    "Cuando gustes adquirir el paquete por $99 MXN, puedes seleccionar tu método de pago 😊.",
   ];
 
   return elegirAleatoria(cierres);
@@ -128,12 +135,6 @@ function debeAgregarCierre(textoNormalizado) {
     "costo",
     "cuanto cuesta",
     "cuanto vale",
-    "pagar",
-    "pago",
-    "transferencia",
-    "oxxo",
-    "spin",
-    "deposito",
     "quiero comprar",
     "quiero el material",
     "quiero adquirir",
@@ -154,10 +155,21 @@ function agregarCierre(texto, textoNormalizado) {
   const limpio = limpiarRespuesta(texto);
 
   if (!limpio) {
-    return cierreComercial();
+    return "¿Podrías contarme un poco más sobre tu duda? Con gusto te ayudo.";
   }
 
   if (!debeAgregarCierre(textoNormalizado)) {
+    return limpio;
+  }
+
+  if (
+    contieneAlguna(normalizarTexto(limpio), [
+      "metodo de pago",
+      "prefieres pagar",
+      "datos de pago",
+      "como pagar",
+    ])
+  ) {
     return limpio;
   }
 
@@ -172,7 +184,6 @@ function respuestaDirecta(textoNormalizado) {
 
   // ----------------------------------------------------------
   // 1. ESTAFA
-  // Debe ir antes de CONFIABLE por ser una intención específica.
   // ----------------------------------------------------------
 
   if (
@@ -187,9 +198,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "El paquete digital de Lectoescritura se entrega por WhatsApp después de confirmar el pago.",
+      "Comprendemos tu preocupación 😊. El Mega Pack de Lectoescritura 360 se entrega por WhatsApp después de confirmar el pago.",
 
-      "Después de confirmar el pago, recibirás los PDF del Pack de Lectoescritura directamente por WhatsApp.",
+      "Después de confirmar el pago, recibirás los PDF del Mega Pack de Lectoescritura 360 directamente por WhatsApp. Con gusto resolvemos tus dudas.",
     ];
 
     return {
@@ -216,7 +227,7 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "El Pack de Lectoescritura es 100 % digital en PDF y no requiere envío a domicilio. Después de confirmar tu pago, lo recibes por WhatsApp.",
+      "El Mega Pack de Lectoescritura 360 es 100 % digital en PDF y no requiere envío a domicilio. Después de confirmar tu pago, lo recibes por WhatsApp.",
 
       "No necesitas esperar paquetería. Son archivos PDF imprimibles que se envían por WhatsApp después de confirmar el pago.",
     ];
@@ -224,6 +235,74 @@ function respuestaDirecta(textoNormalizado) {
     return {
       intencion: "domicilio",
       respuesta: elegirAleatoria(respuestas),
+    };
+  }
+
+  // ----------------------------------------------------------
+  // PAGO REALIZADO
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "ya pague",
+      "ya hice el pago",
+      "ya realice el pago",
+      "ya deposite",
+      "ya transferi",
+      "ya hice la transferencia",
+      "ya envie mi comprobante",
+      "ya mande mi comprobante",
+    ])
+  ) {
+    return {
+      intencion: "pago_realizado",
+      respuesta:
+        "¡Muchas gracias! 😊 Una vez confirmado tu pago, recibirás el material completo por WhatsApp.",
+    };
+  }
+
+  // ----------------------------------------------------------
+  // PROBLEMAS DE PAGO
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "no puedo pagar",
+      "no me deja pagar",
+      "no puedo transferir",
+      "no me deja transferir",
+      "no acepta la cuenta",
+      "no acepta la tarjeta",
+      "no acepta la clabe",
+      "cuenta invalida",
+      "tarjeta invalida",
+      "error de transferencia",
+      "error al pagar",
+      "no me aparece el banco",
+    ])
+  ) {
+    return {
+      intencion: "problema_pago",
+      respuesta:
+        "Con gusto te ayudo 😊. ¿Podrías indicarme qué error te aparece al intentar realizar el pago? También contamos con la opción de pago por OXXO/Spin.",
+    };
+  }
+
+  // ----------------------------------------------------------
+  // CLABE INTERBANCARIA
+  // ----------------------------------------------------------
+
+  if (
+    contieneAlguna(textoNormalizado, [
+      "clabe",
+      "18 digitos",
+      "clave interbancaria",
+    ])
+  ) {
+    return {
+      intencion: "clabe",
+      respuesta:
+        "La CLABE interbancaria consta de 18 dígitos. Si tu aplicación bancaria te solicita el tipo de cuenta, selecciona la opción CLABE cuando corresponda a los datos de pago que recibiste.",
     };
   }
 
@@ -239,16 +318,16 @@ function respuestaDirecta(textoNormalizado) {
       "cuánto cuesta",
       "cuanto vale",
       "cuánto vale",
-      "89 pesos",
-      "89 mxn",
+      "99 pesos",
+      "99 mxn",
       "cuanto sale",
       "precio del pack",
     ])
   ) {
     const respuestas = [
-      "El Pack de Lectoescritura cuesta $89 MXN en total. Incluye las familias silábicas, actividades de lectoescritura, UNO y Dominó silábicos de regalo. 📚",
+      "El Mega Pack de Lectoescritura 360 cuesta solamente $99 MXN. Incluye Grafismo Fonético, silabario completo, UNO, Bingo, Dominó Silábico y un cuadernillo de trazos de regalo. 📚",
 
-      "El precio del Pack de Lectoescritura es fijo: $89 MXN. Incluye todas las consonantes, actividades complementarias y dos juegos silábicos de regalo. 📚",
+      "Por $99 MXN recibes el Mega Pack de Lectoescritura 360 completo, con todos sus materiales, juegos y el cuadernillo de trazos de regalo. 📚",
     ];
 
     return {
@@ -281,17 +360,14 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Puedes pagar los $89 MXN mediante transferencia u OXXO/Spin. Selecciona tu método para ver los datos de pago en el flujo.",
+      "Puedes pagar los $99 MXN mediante transferencia u OXXO/Spin. Selecciona tu método para consultar los datos de pago. 😊",
 
       "Aceptamos transferencia y OXXO/Spin. Elige el método que prefieras para consultar los datos correspondientes.",
     ];
 
     return {
       intencion: "pago",
-      respuesta: agregarCierre(
-        elegirAleatoria(respuestas),
-        textoNormalizado
-      ),
+      respuesta: elegirAleatoria(respuestas),
     };
   }
 
@@ -315,9 +391,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "El Pack de Lectoescritura es 100 % digital en PDF. Después de confirmar tu pago, lo recibes por WhatsApp para descargarlo e imprimirlo.",
+      "El Mega Pack de Lectoescritura 360 es 100 % digital en PDF. Después de confirmar tu pago, lo recibes por WhatsApp para descargarlo e imprimirlo.",
 
-      "El Pack de Lectoescritura se entrega en PDF. Una vez confirmado el pago, lo recibirás por WhatsApp para imprimirlo.",
+      "Todo el material se entrega en formato PDF, listo para imprimir. Una vez confirmado el pago, lo recibirás por WhatsApp.",
     ];
 
     return {
@@ -342,15 +418,14 @@ function respuestaDirecta(textoNormalizado) {
       "qué edad",
       "preescolar",
       "primaria",
-      "preescolar",
       "para quien es",
       "primer grado",
     ])
   ) {
     const respuestas = [
-      "Está pensado para niños que comienzan a reconocer letras, sílabas y palabras, con apoyo de familias o docentes. No se establece una edad exacta.",
+      "Está pensado para pequeños que comienzan a reconocer sonidos, sílabas y palabras, con apoyo de familias o docentes. Depende del nivel de aprendizaje de cada niño. 😊",
 
-      "Es un apoyo para la lectoescritura inicial, en casa o en el aula, según el avance de cada niño.",
+      "Es un material de apoyo para la lectoescritura inicial que puedes utilizar tanto en casa como en el aula, según el avance de cada pequeño.",
     ];
 
     return {
@@ -360,7 +435,7 @@ function respuestaDirecta(textoNormalizado) {
   }
 
   // ----------------------------------------------------------
-  // 7. QUÉ INCLUYE / STICKERS
+  // 7. QUÉ INCLUYE
   // ----------------------------------------------------------
 
   if (
@@ -373,18 +448,23 @@ function respuestaDirecta(textoNormalizado) {
       "contenido",
       "que contiene",
       "qué contiene",
-      "detective de silabas",
+      "grafismo fonetico",
+      "silabas trabadas",
+      "silabas simples",
+      "cuadernillo de trazos",
+      "bingo",
+      "domino",
       "silabario",
-      "familias silabicas",
-      "consonantes",
       "silabas",
       "actividades",
+      "regalos",
+      "bonos",
     ])
   ) {
     const respuestas = [
-      "El Pack de Lectoescritura incluye familias silábicas de todas las consonantes, incluyendo CH y LL; Detective de sílabas, Construyo palabras de dos sílabas, Escribe la sílaba que falta, fichas de sílaba inicial y silabario. De regalo UNO y Dominó silábicos. 📚",
+      "El Mega Pack de Lectoescritura 360 incluye:\n\n✅ Método de Grafismo Fonético: El puente visual para los sonidos.\n✅ Silabario Completo: Sílabas simples y trabadas.\n✅ Set de Juegos: Cartas tipo UNO, Bingo y Dominó Silábico.\n🎁 Regalo: Cuadernillo de trazos.",
 
-      "Recibes familias silábicas interactivas para colorear, recortar y doblar, actividades para identificar y formar sílabas y palabras, y un silabario. Incluye UNO y Dominó silábicos de regalo. 📚",
+      "Recibes el Método de Grafismo Fonético, un silabario completo de sílabas simples y trabadas, cartas tipo UNO, Bingo y Dominó Silábico, además de un cuadernillo de trazos de regalo. 📚",
     ];
 
     return {
@@ -413,9 +493,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Después de confirmar tu pago, el Pack de Lectoescritura se envía por WhatsApp. Si necesitas orientación, con gusto te ayudamos.",
+      "Después de confirmar tu pago, el Mega Pack de Lectoescritura 360 se envía por WhatsApp. Si necesitas orientación, con gusto te ayudamos.",
 
-      "El material digital de lectoescritura se entrega por WhatsApp después de confirmar el pago. Con gusto te orientamos si tienes dudas.",
+      "El material digital se entrega por WhatsApp después de confirmar el pago. Con gusto te orientamos si tienes dudas. 😊",
     ];
 
     return {
@@ -443,9 +523,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Una vez confirmado tu pago de $89 MXN, el Pack de Lectoescritura y sus regalos se envían por WhatsApp.",
+      "Una vez confirmado tu pago de $99 MXN, el Mega Pack de Lectoescritura 360 completo se envía por WhatsApp.",
 
-      "Después de confirmar el pago, recibes el Pack de Lectoescritura y los dos regalos por WhatsApp en PDF.",
+      "Después de confirmar el pago, recibes todos los materiales, juegos y el cuadernillo de trazos de regalo por WhatsApp en formato PDF.",
     ];
 
     return {
@@ -473,17 +553,14 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Es un Pack de Lectoescritura digital con familias silábicas de todas las consonantes, actividades para identificar sílabas y formar palabras, silabario, UNO y Dominó silábicos de regalo.",
+      "¡Hola! Qué gusto que quieras apoyar a tu peque con su lectura. 🍎📚\n\nEl Mega Pack de Lectoescritura 360 es un material digital (PDF) listo para imprimir que incluye:\n\n✅ Método de Grafismo Fonético: El puente visual para los sonidos.\n✅ Silabario Completo: Sílabas simples y trabadas.\n✅ Set de Juegos: Cartas tipo UNO, Bingo y Dominó Silábico.\n🎁 Regalo: Cuadernillo de trazos.\n\n⚡ Llévatelo hoy por solo $99 MXN.\n\n¿Te gustaría que te envíe los datos de pago?",
 
-      "El Pack de Lectoescritura incluye personajes silábicos interactivos, Detective de sílabas, Construyo palabras, Escribe la sílaba que falta, fichas de sílaba inicial y silabario, más dos juegos de regalo.",
+      "El Mega Pack de Lectoescritura 360 incluye Grafismo Fonético, silabario de sílabas simples y trabadas, UNO, Bingo y Dominó Silábico, más un cuadernillo de trazos de regalo. Todo por solo $99 MXN. 📚\n\n¿Te gustaría recibir los datos de pago?",
     ];
 
     return {
       intencion: "informes",
-      respuesta: agregarCierre(
-        elegirAleatoria(respuestas),
-        textoNormalizado
-      ),
+      respuesta: elegirAleatoria(respuestas),
     };
   }
 
@@ -495,7 +572,9 @@ function respuestaDirecta(textoNormalizado) {
 // ==========================================================
 
 app.get("/", (req, res) => {
-  res.send("Agente Julieta Navarro - Manitas Listas Lectoescritura activo ✅");
+  res.send(
+    "Agente Julieta Navarro - Manitas Listas Grafismo Fonético activo ✅"
+  );
 });
 
 // ==========================================================
@@ -543,7 +622,8 @@ app.post("/mensaje", async (req, res) => {
     }
 
     // Si no coincide con una intención directa,
-    // consulta OpenAI utilizando únicamente la base oficial.
+    // consulta OpenAI utilizando la base oficial.
+
     console.log(
       "Intención detectada: consulta abierta"
     );
@@ -566,10 +646,9 @@ app.post("/mensaje", async (req, res) => {
     const respuestaIA =
       response.output_text || "";
 
-    const respuestaFinal = agregarCierre(
-      respuestaIA,
-      textoNormalizado
-    );
+    const respuestaFinal =
+      limpiarRespuesta(respuestaIA) ||
+      "¿Podrías contarme un poco más sobre tu duda? Con gusto te ayudo.";
 
     console.log(
       "Respuesta generada mediante OpenAI"
@@ -578,6 +657,7 @@ app.post("/mensaje", async (req, res) => {
     return res.json({
       respuesta: respuestaFinal,
     });
+
   } catch (error) {
     console.error(
       "Error en /mensaje:",
