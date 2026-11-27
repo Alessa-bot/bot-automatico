@@ -20,11 +20,11 @@ const PORT = process.env.PORT || 8080;
 const SYSTEM_PROMPT = `
 Eres Julieta Navarro, asistente de Manitas Listas.
 
-Tu función principal es responder y resolver dudas por WhatsApp sobre el Mega Pack de Lectoescritura 360.
+Tu función principal es responder y resolver dudas por WhatsApp sobre el Kit de Rutinas Infantiles.
 
 PERSONALIDAD Y TONO:
 - Sé amable, cálida, paciente, comprensiva, cercana y respetuosa.
-- Comunícate pensando en madres, padres, docentes y personas que acompañan la lectoescritura inicial.
+- Comunícate pensando en madres, padres, docentes y personas que acompañan las rutinas infantiles.
 - Comprende la duda antes de responder.
 - Mantén respuestas humanas, breves y claras.
 - Responde normalmente en uno o dos párrafos cortos.
@@ -32,14 +32,14 @@ PERSONALIDAD Y TONO:
 
 INFORMACIÓN OFICIAL DEL NEGOCIO:
 Negocio: Manitas Listas.
-Producto: Mega Pack de Lectoescritura 360.
+Producto: Kit de Rutinas Infantiles.
 Tipo de producto: Material 100 % digital en PDF, descargable y listo para imprimir.
 
 OBJETIVO:
-Apoyar a los pequeños en el proceso de aprendizaje de la lectura mediante el reconocimiento de sonidos, sílabas y formación de palabras.
+Fomentar buenos hábitos, autonomía y responsabilidad mediante misiones, puntos y recompensas elegidas por la familia.
 
 PRECIO:
-- $99 MXN por el paquete completo.
+- $89 MXN por el paquete completo.
 - No es contribución voluntaria.
 - No inventes descuentos adicionales ni promociones.
 - No afirmes que quedan accesos limitados sin información actualizada.
@@ -56,21 +56,26 @@ No hay envío físico.
 
 CONTENIDO OFICIAL DEL PACK:
 
-- Método de Grafismo Fonético: El puente visual para los sonidos.
-- Silabario Completo: Sílabas simples y trabadas.
-- Set de Juegos: Cartas tipo UNO, Bingo y Dominó Silábico.
-- Regalo: Cuadernillo de trazos.
+- Cuatro diseños: espacio, autos, princesas y sirenas.
+- Tableros personalizables, billetes de puntos, vales de recompensas, alcancías armables y guía para padres.
+- Regalos: tableros de Navidad, invierno y vacaciones; 24 actividades en familia; rutinas visuales; diario de gratitud; juegos educativos; libro para colorear y actividades de recortar y pegar.
+- Cada familia elige las tareas y recompensas. No se recomienda retirar necesidades básicas como castigo.
 
 PÚBLICO:
-Familias, docentes y pequeños en proceso de lectoescritura inicial.
+Familias, cuidadores y docentes que desean apoyar los hábitos infantiles.
 No inventes edades o grados exactos ni garantices resultados.
+
+CÓMO FUNCIONA:
+- El adulto elige las misiones y asigna puntos; el pequeño marca las tareas realizadas y puede canjear puntos por recompensas acordadas en familia.
+- No garantices cambios de conducta ni resultados en plazos determinados.
+- No prometas cantidades exactas de archivos o actividades que no estén confirmadas.
 
 REGLAS IMPORTANTES:
 - Responde la pregunta real y no inventes información.
 - No inventes páginas, archivos, promociones, garantías, enlaces ni datos bancarios.
 - No afirmes que un pago fue confirmado ni que ya entregaste archivos.
-- No cambies el precio oficial de $99 MXN.
-- Si preguntan por otro producto, indica amablemente que atiendes dudas del Mega Pack de Lectoescritura 360.
+- No cambies el precio oficial de $89 MXN.
+- Si preguntan por otro producto, indica amablemente que atiendes dudas del Kit de Rutinas Infantiles.
 - Si no tienes información suficiente, indica que necesitas confirmar con el equipo.
 - Tu función principal es resolver dudas y orientar al cliente.
 - Si la persona indica que ya realizó su pago, explica que deberá confirmarse antes de entregar el material.
@@ -79,7 +84,7 @@ REGLAS IMPORTANTES:
 LLAMADO A LA ACCIÓN:
 Cuando sea apropiado orientar a la persona para continuar, puedes decir:
 
-"Si deseas adquirir el Mega Pack de Lectoescritura 360 por $99 MXN, puedes elegir tu método de pago 😊."
+"Si deseas adquirir el Kit de Rutinas Infantiles por $89 MXN, puedes elegir tu método de pago 😊."
 
 No agregues este llamado a la acción en todas las respuestas.
 `;
@@ -121,9 +126,9 @@ function contieneAlguna(texto, palabras) {
 
 function cierreComercial() {
   const cierres = [
-    "Si deseas adquirir el paquete por $99 MXN, puedes elegir el método de pago que prefieras 😊.",
-    "Si te interesa el paquete completo por $99 MXN, puedes elegir cómo prefieres pagar 💛.",
-    "Cuando gustes adquirir el paquete por $99 MXN, puedes seleccionar tu método de pago 😊.",
+    "Si deseas adquirir el paquete por $89 MXN, puedes elegir el método de pago que prefieras 😊.",
+    "Si te interesa el paquete completo por $89 MXN, puedes elegir cómo prefieres pagar 💛.",
+    "Cuando gustes adquirir el paquete por $89 MXN, puedes seleccionar tu método de pago 😊.",
   ];
 
   return elegirAleatoria(cierres);
@@ -198,9 +203,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Comprendemos tu preocupación 😊. El Mega Pack de Lectoescritura 360 se entrega por WhatsApp después de confirmar el pago.",
+      "Comprendemos tu preocupación 😊. El Kit de Rutinas Infantiles se entrega por WhatsApp después de confirmar el pago.",
 
-      "Después de confirmar el pago, recibirás los PDF del Mega Pack de Lectoescritura 360 directamente por WhatsApp. Con gusto resolvemos tus dudas.",
+      "Después de confirmar el pago, recibirás los PDF del Kit de Rutinas Infantiles directamente por WhatsApp. Con gusto resolvemos tus dudas.",
     ];
 
     return {
@@ -227,7 +232,7 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "El Mega Pack de Lectoescritura 360 es 100 % digital en PDF y no requiere envío a domicilio. Después de confirmar tu pago, lo recibes por WhatsApp.",
+      "El Kit de Rutinas Infantiles es 100 % digital en PDF y no requiere envío a domicilio. Después de confirmar tu pago, lo recibes por WhatsApp.",
 
       "No necesitas esperar paquetería. Son archivos PDF imprimibles que se envían por WhatsApp después de confirmar el pago.",
     ];
@@ -318,16 +323,16 @@ function respuestaDirecta(textoNormalizado) {
       "cuánto cuesta",
       "cuanto vale",
       "cuánto vale",
-      "99 pesos",
-      "99 mxn",
+      "89 pesos",
+      "89 mxn",
       "cuanto sale",
-      "precio del pack",
+      "precio del kit",
     ])
   ) {
     const respuestas = [
-      "El Mega Pack de Lectoescritura 360 cuesta solamente $99 MXN. Incluye Grafismo Fonético, silabario completo, UNO, Bingo, Dominó Silábico y un cuadernillo de trazos de regalo. 📚",
+      "El Kit de Rutinas Infantiles cuesta solamente $89 MXN. Incluye cuatro diseños de tableros, puntos, recompensas, rutinas visuales y regalos de Navidad, invierno y vacaciones. 🌈",
 
-      "Por $99 MXN recibes el Mega Pack de Lectoescritura 360 completo, con todos sus materiales, juegos y el cuadernillo de trazos de regalo. 📚",
+      "Por $89 MXN recibes el Kit de Rutinas Infantiles completo, con todos sus tableros, rutinas y regalos. 📚",
     ];
 
     return {
@@ -360,7 +365,7 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Puedes pagar los $99 MXN mediante transferencia u OXXO/Spin. Selecciona tu método para consultar los datos de pago. 😊",
+      "Puedes pagar los $89 MXN mediante transferencia u OXXO/Spin. Selecciona tu método para consultar los datos de pago. 😊",
 
       "Aceptamos transferencia y OXXO/Spin. Elige el método que prefieras para consultar los datos correspondientes.",
     ];
@@ -391,7 +396,7 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "El Mega Pack de Lectoescritura 360 es 100 % digital en PDF. Después de confirmar tu pago, lo recibes por WhatsApp para descargarlo e imprimirlo.",
+      "El Kit de Rutinas Infantiles es 100 % digital en PDF. Después de confirmar tu pago, lo recibes por WhatsApp para descargarlo e imprimirlo.",
 
       "Todo el material se entrega en formato PDF, listo para imprimir. Una vez confirmado el pago, lo recibirás por WhatsApp.",
     ];
@@ -423,9 +428,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Está pensado para pequeños que comienzan a reconocer sonidos, sílabas y palabras, con apoyo de familias o docentes. Depende del nivel de aprendizaje de cada niño. 😊",
+      "Está pensado para pequeños que están desarrollando hábitos y autonomía, con apoyo de un adulto. Puedes adaptar las tareas a sus capacidades. 😊",
 
-      "Es un material de apoyo para la lectoescritura inicial que puedes utilizar tanto en casa como en el aula, según el avance de cada pequeño.",
+      "Puedes utilizarlo en casa o en el aula, adaptando las misiones a las necesidades de cada pequeño.",
     ];
 
     return {
@@ -448,23 +453,24 @@ function respuestaDirecta(textoNormalizado) {
       "contenido",
       "que contiene",
       "qué contiene",
-      "grafismo fonetico",
-      "silabas trabadas",
-      "silabas simples",
-      "cuadernillo de trazos",
-      "bingo",
-      "domino",
-      "silabario",
-      "silabas",
+      "tableros",
+      "rutinas visuales",
+      "billetes",
+      "recompensas",
+      "navidad",
+      "invierno",
+      "vacaciones",
+      "colorear",
+      "recortar",
       "actividades",
       "regalos",
       "bonos",
     ])
   ) {
     const respuestas = [
-      "El Mega Pack de Lectoescritura 360 incluye:\n\n✅ Método de Grafismo Fonético: El puente visual para los sonidos.\n✅ Silabario Completo: Sílabas simples y trabadas.\n✅ Set de Juegos: Cartas tipo UNO, Bingo y Dominó Silábico.\n🎁 Regalo: Cuadernillo de trazos.",
+      "El Kit de Rutinas Infantiles incluye:\n\n✅ Cuatro tableros: espacio, autos, princesas y sirenas.\n✅ Billetes, vales, alcancías y guía.\n🎁 Regalos: Navidad, invierno, vacaciones, rutinas visuales, actividades en familia, diario de gratitud, juegos educativos, libro para colorear y recortar y pegar.",
 
-      "Recibes el Método de Grafismo Fonético, un silabario completo de sílabas simples y trabadas, cartas tipo UNO, Bingo y Dominó Silábico, además de un cuadernillo de trazos de regalo. 📚",
+      "Recibes cuatro diseños de misiones, billetes, vales, alcancías y guía. También incluye regalos de Navidad, invierno y vacaciones, rutinas visuales, actividades en familia, diario de gratitud, juegos educativos, libro para colorear y actividades de recorte. 🌈",
     ];
 
     return {
@@ -493,7 +499,7 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Después de confirmar tu pago, el Mega Pack de Lectoescritura 360 se envía por WhatsApp. Si necesitas orientación, con gusto te ayudamos.",
+      "Después de confirmar tu pago, el Kit de Rutinas Infantiles se envía por WhatsApp. Si necesitas orientación, con gusto te ayudamos.",
 
       "El material digital se entrega por WhatsApp después de confirmar el pago. Con gusto te orientamos si tienes dudas. 😊",
     ];
@@ -523,9 +529,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "Una vez confirmado tu pago de $99 MXN, el Mega Pack de Lectoescritura 360 completo se envía por WhatsApp.",
+      "Una vez confirmado tu pago de $89 MXN, el Kit de Rutinas Infantiles completo se envía por WhatsApp.",
 
-      "Después de confirmar el pago, recibes todos los materiales, juegos y el cuadernillo de trazos de regalo por WhatsApp en formato PDF.",
+      "Después de confirmar el pago, recibes todos los tableros, rutinas y regalos por WhatsApp en formato PDF.",
     ];
 
     return {
@@ -553,9 +559,9 @@ function respuestaDirecta(textoNormalizado) {
     ])
   ) {
     const respuestas = [
-      "¡Hola! Qué gusto que quieras apoyar a tu peque con su lectura. 🍎📚\n\nEl Mega Pack de Lectoescritura 360 es un material digital (PDF) listo para imprimir que incluye:\n\n✅ Método de Grafismo Fonético: El puente visual para los sonidos.\n✅ Silabario Completo: Sílabas simples y trabadas.\n✅ Set de Juegos: Cartas tipo UNO, Bingo y Dominó Silábico.\n🎁 Regalo: Cuadernillo de trazos.\n\n⚡ Llévatelo hoy por solo $99 MXN.\n\n¿Te gustaría que te envíe los datos de pago?",
+      "¡Hola! Qué gusto que quieras ayudar a tu peque a desarrollar buenos hábitos. 🌈\n\nEl Kit de Rutinas Infantiles es un material digital (PDF) listo para imprimir que incluye:\n\n✅ Cuatro tableros: espacio, autos, princesas y sirenas.\n✅ Billetes, vales, alcancías y guía.\n🎁 Regalos: Navidad, invierno, vacaciones, rutinas visuales, actividades en familia, diario de gratitud, juegos educativos, libro para colorear y recortar y pegar.\n\n⚡ Llévatelo hoy por solo $89 MXN.\n\n¿Te gustaría que te envíe los datos de pago?",
 
-      "El Mega Pack de Lectoescritura 360 incluye Grafismo Fonético, silabario de sílabas simples y trabadas, UNO, Bingo y Dominó Silábico, más un cuadernillo de trazos de regalo. Todo por solo $99 MXN. 📚\n\n¿Te gustaría recibir los datos de pago?",
+      "El Kit de Rutinas Infantiles incluye cuatro tableros de misiones, puntos, recompensas, rutinas visuales y regalos de Navidad, invierno y vacaciones, juegos educativos, libro para colorear y actividades de recorte. Todo por solo $89 MXN. 📚\n\n¿Te gustaría recibir los datos de pago?",
     ];
 
     return {
@@ -573,7 +579,7 @@ function respuestaDirecta(textoNormalizado) {
 
 app.get("/", (req, res) => {
   res.send(
-    "Agente Julieta Navarro - Manitas Listas Grafismo Fonético activo ✅"
+    "Agente Julieta Navarro - Manitas Listas - Kit de Rutinas Infantiles activo ✅"
   );
 });
 
